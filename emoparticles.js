@@ -2,9 +2,9 @@ var dispersed = false;
 var firstDone = false;
 var secondDone = false;
 var thirdDone = false;
-var fRgba = [];
-var sRgba = [];
-var tRgba = [];
+var fRgba = []; // first img rgba data
+var sRgba = []; // second img rgba data
+var tRgba = []; // third img rgba data
 
 var WIDTH = window.innerWidth,
     HEIGHT = window.innerHeight;
@@ -40,9 +40,7 @@ var pMaterial = new THREE.PointsMaterial({
 
 for (var i = 0; i < particleCount; i++) {
   var x = Math.random() * 1600 - 800;
-  do {
-    var y = Math.random() * 3000 - 1500;
-  } while (y < 600)
+  var y = getRandomInt(600, 1500)
   var z = Math.random() * 30 - 15;
   var particle = new THREE.Vector3(x, y, z);
   particle.updated = 0;
