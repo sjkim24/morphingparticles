@@ -150,7 +150,7 @@ var disperse = function() {
     if (typeof(particle.destination) === "undefined") {
       var nums = [-1, 1];
       var x = particle.x + nums[Math.round(Math.random())];
-      var y = particle.y - 500;
+      var y = particle.y - 1000;
       var z = Math.random() * 30 - 15;
       addDestination(particle, x, y, z);
       particle.velocity = new THREE.Vector3(x - particle.x, -3, z - particle.z);
@@ -223,42 +223,24 @@ var morphOuterParticles = function(outerParticles, ord) {
   }
 };
 
-var makeFirstImg = function(rgba) {
+var makeImg = function(rgba, ord) {
   var pCount = particleCount;
   var imagePs = particles.vertices.slice(0, rgba.length);
   var outerPs = particles.vertices.slice(rgba.length, pCount);
 
   morphImageParticles(imagePs, rgba);
-  morphOuterParticles(outerPs, 1);
-};
-
-var makeSecondImg = function(rgba) {
-  var pCount = particleCount;
-  var imagePs = particles.vertices.slice(0, rgba.length);
-  var outerPs = particles.vertices.slice(rgba.length, pCount);
-
-  morphImageParticles(imagePs, rgba);
-  morphOuterParticles(outerPs, 2);
-};
-
-var makeThirdImg = function(rgba) {
-  var pCount = particleCount;
-  var imagePs = particles.vertices.slice(0, rgba.length);
-  var outerPs = particles.vertices.slice(rgba.length, pCount);
-
-  morphImageParticles(imagePs, rgba);
-  morphOuterParticles(outerPs, 3);
+  morphOuterParticles(outerPs, ord);
 };
 
 var update = function() {
   if (thirdDone) {
     // something
   } else if (secondDone) {
-    makeThirdImg(tRgba);
+    makeImg(tRgba, 3);
   } else if (firstDone) {
-    makeSecondImg(sRgba);
+    makeImg(sRgba, 2);
   } else if (dispersed) {
-    makeFirstImg(fRgba);
+    makeImg(fRgba, 1);
   } else {
     disperse();
   }
@@ -269,12 +251,12 @@ var update = function() {
   TWEEN.update()
 }
 
-var rotYScale = d3.scale.linear().domain([0, window.innerWidth]).range([25, -25]);
 var rotXScale = d3.scale.linear().domain([0, window.innerHeight]).range([15, -15]);
+var rotYScale = d3.scale.linear().domain([0, window.innerWidth]).range([25, -25]);
 
 d3.select("body").on("mousemove", function() {
-  var scaledY = rotYScale(d3.mouse(this)[0]) * Math.PI / 180;
   var scaledX = rotXScale(d3.mouse(this)[1]) * Math.PI / 180;
+  var scaledY = rotYScale(d3.mouse(this)[0]) * Math.PI / 180;
   var tween = new TWEEN.Tween(particleSystem.rotation).to({ x: scaledX, y: scaledY, z: 0 })
   tween.easing( TWEEN.Easing.Quartic.Out);
   tween.start();
