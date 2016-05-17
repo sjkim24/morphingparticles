@@ -185,7 +185,7 @@ var morphImageParticles = function(imageParticles, rgba) {
 
 var morphOuterParticles = function(outerParticles, ord) {
   for (var i = 0; i < outerParticles.length; i++) {
-    var nums = [-1, 1]
+    var nums = [-1, 1];
     var particle = outerParticles[i];
     if (particle.destination === null) {
       var x = Math.random() * 1000 - 500;
@@ -246,8 +246,8 @@ var update = function() {
   particleSystem.geometry.verticesNeedUpdate = true;
   renderer.render(scene, camera);
   requestAnimationFrame(update);
-  TWEEN.update()
-}
+  TWEEN.update();
+};
 
 var rotXScale = d3.scale.linear().domain([0, window.innerHeight]).range([15, -15]);
 var rotYScale = d3.scale.linear().domain([0, window.innerWidth]).range([25, -25]);
@@ -255,7 +255,7 @@ var rotYScale = d3.scale.linear().domain([0, window.innerWidth]).range([25, -25]
 d3.select("body").on("mousemove", function() {
   var scaledX = rotXScale(d3.mouse(this)[1]) * Math.PI / 180;
   var scaledY = rotYScale(d3.mouse(this)[0]) * Math.PI / 180;
-  var tween = new TWEEN.Tween(particleSystem.rotation).to({ x: scaledX, y: scaledY, z: 0 })
+  var tween = new TWEEN.Tween(particleSystem.rotation).to({ x: scaledX, y: scaledY, z: 0 });
   tween.easing( TWEEN.Easing.Quartic.Out);
   tween.start();
 });
